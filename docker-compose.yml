@@ -18,10 +18,7 @@ services:
       - default
     volumes:
       - ${CONTAINER_HOME}/${CONTAINER_PROJECT}/data:/data
-      - ${CONTAINER_HOME}/${CONTAINER_PROJECT}/data/logs/nginx:/var/log/nginx
-      - ${CONTAINER_HOME}/${CONTAINER_PROJECT}/data/logs/uwsgi.log:/var/log/uwsgi.log
-      - ${CONTAINER_HOME}/${CONTAINER_PROJECT}/data/htdocs/robots.txt:/usr/share/nginx/html/robots.txt
-      - ${CONTAINER_HOME}/${CONTAINER_PROJECT}/scripts:/scripts
+      - ${CONTAINER_HOME}/${CONTAINER_PROJECT}/scripts:/scripts:ro
       - /etc/localtime:/etc/localtime:ro
     profiles:
       - do_not_start
@@ -46,6 +43,9 @@ services:
       # https://stackoverflow.com/a/61954812/10545609
       - ${PYNOSER_NGINX_LOCAL-/dev/null}:${PYNOSER_NGINX_CONF-/.devnull.nginx}:ro
       - ${PYNOSER_UWSGI_LOCAL-/dev/null}:${PYNOSER_UWSGI_CONF-/.devnull.uwsgi}:ro
+      - ${CONTAINER_HOME}/${CONTAINER_PROJECT}/data/logs/nginx:/var/log/nginx
+      - ${CONTAINER_HOME}/${CONTAINER_PROJECT}/data/logs/uwsgi.log:/var/log/uwsgi.log
+      - ${CONTAINER_HOME}/${CONTAINER_PROJECT}/data/htdocs/robots.txt:/usr/share/nginx/html/robots.txt:ro
     healthcheck:
         test: ["CMD", "/scripts/pynoser_health" ]
         interval: 5m00s

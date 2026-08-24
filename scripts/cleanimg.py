@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 #@PydevCodeAnalysisIgnore
 __revision__ = "None!"
-import sys,os; sys.path = [os.path.realpath(".."),os.path.realpath("../../svn")]+sys.path
-os.environ["DJANGO_SETTINGS_MODULE"] = "pynoser.localsettings"
-import localsettings
-localsettings.finish()
+
+from runtime import settings  # @UnusedImport
 import re
-from reader.models    import *
+from pynoser.reader.models import Article
 from django.db.models import Q
-from djutil           import db, dt
 
 FEEDS    = [ 338 ]
 
@@ -20,11 +17,11 @@ art = Article.objects.filter(IMG_FILT)
 
 s = 0
 for a in art:
-  print(a.title)
+  print((a.title))
   s += len(a.text)
   
 if art.count() > 0:
-  ok = raw_input("Changing {0} articles ({1}k). Continue? ".format(art.count(), s / 1024))
+  ok = input("Changing {0} articles ({1}k). Continue? ".format(art.count(), s / 1024))
   if ok == 'y':
     s = 0
     for a in art:
@@ -33,5 +30,5 @@ if art.count() > 0:
       a.save()
       s += len(new)
 
-    print "Modfied ({0}k left). Reorganizing...".format(s / 1024)
+    print("Modfied ({0}k left). Reorganizing...".format(s / 1024))
     db.reorg()

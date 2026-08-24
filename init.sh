@@ -4,23 +4,24 @@
 . .env
 
 if [ -z "$GITHUB_USER" ]; then
-    pynoser_repo="git@github.com:Herrminator/pynoser-proto.git"
+    pynoser_repo="git@github.com:Herrminator/pynoser-python3.git"
     ssh git@github.com 2>&1 | grep success > /dev/null ||\
-      pynoser_repo="https://github.com/Herrminator/pynoser-proto.git"
+      pynoser_repo="https://github.com/Herrminator/pynoser-python3.git"
 else
-    pynoser_repo="https://$GITHUB_USER@github.com/Herrminator/pynoser-proto.git"
+    pynoser_repo="https://$GITHUB_USER@github.com/Herrminator/pynoser-python3.git"
 fi
   
 # create empty files if necessary to make docker file volumes work
 touch ./data/logs/uwsgi.log
 touch ./data/logs/cron.log
+touch ./data/logs/nginx/error.log
 
 # the weirdest symlink of all (creates /home/johler/develop/python/django/pynoser/data in container)
 ln -sf /data ./data
 # more no-existent symlinks ;)
 # /opt/pynoser/pynoser/util/pywrap
 
-# Retrieve required scripts from pynoser-proto
+# Retrieve required scripts from pynoser-python3
 scripts="pynoser-admin pynoser-sh pynoser-cron-sh pynoser-errreset pynoser-randupd docker.compose.up docker.compose.down"
 
 mkdir -p ./tmp

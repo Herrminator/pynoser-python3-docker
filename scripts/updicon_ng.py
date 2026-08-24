@@ -1,8 +1,8 @@
-from __future__ import print_function
+
 import os, sys, argparse, socket; sys.path = [os.path.realpath("..")]+sys.path
 
 from pip._vendor      import html5lib
-from urlparse         import urlsplit, urlunsplit
+from urllib.parse     import urlsplit, urlunsplit
 from runtime          import settings #@UnusedImport
 from reader.models    import Feed
 from reader           import feed

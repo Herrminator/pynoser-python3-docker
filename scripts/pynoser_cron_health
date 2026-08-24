@@ -4,7 +4,7 @@ ERR_INTVL="1 hours"
 ERR_THRESH_PER_INTVL=10
 
 errors=$(
-python2 -u /opt/pynoser/pynoser/manage.py dbshell <<EOF
+python -u /opt/pynoser/pynoser/manage.py dbshell <<EOF
 select count(*) from djutil_errorlog
 where log_level>=${ERR_LEVEL}
   and time_stamp > datetime('now', 'localtime', '-${ERR_INTVL}')

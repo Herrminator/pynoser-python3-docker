@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-from __future__ import print_function
+
 import sys, argparse
-import cookielib
-import urllib2
+import http.cookiejar
+import urllib.request, urllib.error, urllib.parse
 from   runtime import settings
 
 # TODO: The problems seem come from the parallel execution in batchupd_mt.py
@@ -24,10 +24,10 @@ def main(argv=sys.argv[1:]):
     if args.verbose > 1:
         import logging
         logging.basicConfig(level=logging.DEBUG if args.verbose > 2 else logging.INFO)
-        cookielib.debug = True
+        http.cookiejar.debug = True
 
     try:
-        cookiejar = cookielib.LWPCookieJar(args.cookiejar)
+        cookiejar = http.cookiejar.LWPCookieJar(args.cookiejar)
         cookiejar.load()
     except Exception as exc:
         print("Error opening cookie jar {0}: {1}. Please check!".format(args.cookiejar, exc))
@@ -38,7 +38,7 @@ def main(argv=sys.argv[1:]):
     for cookie in cookiejar:
         if args.verbose: print(cookie.domain)
 
-        req = urllib2.Request("https://{0}/not/root".format(cookie.domain))
+        req = urllib.request.Request("https://{0}/not/root".format(cookie.domain))
         try:
             cookiejar.add_cookie_header(req)
         except Exception as exc:

@@ -10,7 +10,12 @@ services:
     environment:
       - UID=${UID}
       - GID=${GID}
-      - PYNOSER_DATABASE_NAME=/data/pynoser.db3
+      - PYNOSER_DATABASE_ENGINE=${PYNOSER_DATABASE_ENGINE-sqlite3}
+      - PYNOSER_DATABASE_NAME=${PYNOSER_DATABASE_NAME-/data/pynoser.db3}
+      - PYNOSER_DATABASE_HOST=${PYNOSER_DATABASE_HOST-}
+      - PYNOSER_DATABASE_PORT=${PYNOSER_DATABASE_PORT-}
+      - PYNOSER_DATABASE_USER=${PYNOSER_DATABASE_USER-}
+      - PYNOSER_DATABASE_PASSWORD=${PYNOSER_DATABASE_PASSWORD-}
       - PYNOSER_MEDIA_ROOT=/data
       - PYNOSER_COOKIE_JAR=/data/pynoser.cookies
     # - PYNOSER_APACHE_DEBUG=true
@@ -75,16 +80,19 @@ services:
 
   postgres:
     image: postgres:alpine
-    restart: always
+    container_name: "pynoser-postgres"
+    hostname:       "pynoser-postgres"
+    restart: unless-stopped
     environment:
-      - POSTGRES_PASSWORD=libreelec
-      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_PASSWORD=${PYNOSER_POSTGRES_PASSWORD}
+      # use default
+      # - PGDATA=/var/lib/postgresql/${PYNOSER_POSTGRES_VERSION-18}/docker
     networks:
       - default
     ports:
       - 5432:5432
     volumes:
-      - ${CONTAINER_HOME}/postgres/data:/var/lib/postgresql/data
+      - ${CONTAINER_HOME}/${CONTAINER_PROJECT}/data/postgres:/var/lib/postgresql
       - /etc/localtime:/etc/localtime:ro
     profiles:
       - with_postgres

@@ -1,0 +1,10 @@
+#!/bin/bash
+. /etc/profile
+
+self=$(dirname $(readlink -f $0))
+
+docker exec -i\
+  -w /opt/pynoser\
+  -e PYNOSER_BASE_DIR=/opt/pynoser\
+  pynoser-cron\
+  /bin/bash -c "python -u /opt/pynoser/pynoser/manage.py $*"

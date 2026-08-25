@@ -84,7 +84,7 @@ services:
     hostname:       "pynoser-postgres"
     restart: unless-stopped
     environment:
-      - POSTGRES_PASSWORD=${PYNOSER_POSTGRES_PASSWORD}
+      - POSTGRES_PASSWORD=${PYNOSER_POSTGRES_PASSWORD-}
       # use default
       # - PGDATA=/var/lib/postgresql/${PYNOSER_POSTGRES_VERSION-18}/docker
     networks:

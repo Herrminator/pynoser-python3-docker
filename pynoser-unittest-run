@@ -11,6 +11,7 @@ true '
 # run 'pynoser-unittest-run reader' to only run pynoser tests (no django)
 
 docker run -i -t\
+  -w /opt/pynoser\
   --rm ${PYNOSER_IMAGE}\
   /opt/pynoser/pynoser/manage.py test "$@"
 

@@ -1,9 +1,10 @@
-.env
+.env*
 tmp/*
 *.pyc
 *.pyo
 *.out
 *.del
+*.test
 tryme.py
 __pycache__
 

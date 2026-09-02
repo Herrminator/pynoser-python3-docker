@@ -3,15 +3,21 @@ ERR_LEVEL=3
 ERR_INTVL="1 hours"
 ERR_THRESH_PER_INTVL=10
 
+if [ "${PYNOSER_DATABASE_ENGINE}" != "postgresql" ]; then
+    timesel="time_stamp > datetime('now', 'localtime', '-${ERR_INTVL}')"
+    sqlopt=""
+else
+    timesel="time_stamp > current_timestamp - interval '${ERR_INTVL}'"
+    sqlopt="-- --quiet --tuples-only --no-align"
+fi
 errors=$(
-python -u /opt/pynoser/pynoser/manage.py dbshell <<EOF
+python -u /opt/pynoser/pynoser/manage.py dbshell ${sqlopt} <<EOF
 select count(*) from djutil_errorlog
-where log_level>=${ERR_LEVEL}
-  and time_stamp > datetime('now', 'localtime', '-${ERR_INTVL}')
+where log_level>=${ERR_LEVEL} and ${timesel}
 EOF
 ) 2>&1 || exit 42
 
-echo -n "${errors} errors  in the last ${ERR_INTVL}."
+echo -n "${errors} errors in the last ${ERR_INTVL}."
 
 if [[ $errors -ge $ERR_THRESH_PER_INTVL ]]; then
     echo " Failed!"

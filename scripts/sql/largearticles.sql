@@ -1,5 +1,4 @@
-.width -1 -1 -1 -1 -1 14 40 20
-.mode column
+.mode column --widths 0,0,0,0,0,16,40,20
 
 -- .parameter set :threshold "32 * 1024"
 

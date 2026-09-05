@@ -2,5 +2,5 @@
 export PYTHONPATH=/opt/pynoser/pynoser:/opt/pynoser:$PYTHONPATH
 
 # pushd $selfd > /dev/null
-python -u -OO "$@"
+python -u "$@"
 # -W ignore::DeprecationWarning:django.db # Django 1.x

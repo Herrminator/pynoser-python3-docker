@@ -1,5 +1,5 @@
 #!/bin/bash
 sudo systemctl restart docker.pynoser
 sleep 3
-pynoser-unittest-run -v2 reader
 pynoser-unittest-run
+pynoser-cron-sh -c "nginx -V; python --version; django-admin --version; cat /etc/alpine-release"

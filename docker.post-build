@@ -3,3 +3,4 @@ sudo systemctl restart docker.pynoser
 sleep 3
 pynoser-unittest-run
 pynoser-cron-sh -c "nginx -V; python --version; django-admin --version; cat /etc/alpine-release"
+pynoser-cron-admin migrate --plan

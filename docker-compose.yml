@@ -65,6 +65,7 @@ services:
       service: pynoser-base
     container_name: "pynoser-cron"
     hostname:       "pynoser-cron"
+    init: true
     command:
       "/var/run/start-cron.sh"
     volumes:

@@ -6,6 +6,7 @@ from runtime import settings  # @UnusedImport
 import re
 from pynoser.reader.models import Article
 from django.db.models import Q
+from djutil import db
 
 FEEDS    = [ 338 ]
 

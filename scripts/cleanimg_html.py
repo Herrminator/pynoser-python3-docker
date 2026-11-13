@@ -6,11 +6,12 @@ from runtime import settings  # @UnusedImport
 import re
 from pynoser.reader.models import Article
 from django.db.models import Q
+from djutil import db
 
 FEEDS    = [ 338, 57 ]
 
 IMG_CONT = 'src="data:'
-IMG_PATT = re.compile(r'(.*src=")(data:[^"]+?)(".*)', re.I)
+IMG_PATT = re.compile(r'(.*src=")(data:[^"]+?)(".*|$)', re.I)
 IMG_FILT = Q(feed__in=FEEDS) & ( Q(text__icontains=IMG_CONT) | Q(summary__icontains=IMG_CONT))
 IMG_REPL = "\\1/favicon.ico\\3"
 
@@ -19,7 +20,7 @@ art = Article.objects.filter(IMG_FILT)
 
 s = 0
 for a in art:
-  print((a.title))
+  print(a.id, a.feed, a.title)
   s += len(a.text) + len(a.summary)
   
 if art.count() > 0:
